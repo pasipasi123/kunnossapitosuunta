@@ -1,7 +1,6 @@
----
-title: "R Notebook"
-output: github_document
----
+#' ---
+#' output: github_document
+#' ---
 
 Tarkoituksena on laskea, kannattaako pyöräteitä aurata keskustasta ulospäin vai ulkoa keskustaan päin.
 
