@@ -1,7 +1,3 @@
-#' ---
-#' output: github_document
-#' ---
-
 Tarkoituksena on laskea, kannattaako pyöräteitä aurata keskustasta ulospäin vai ulkoa keskustaan päin.
 
 1. Hankin Oulun pyöräteiden yhteisurakan reitistön shapefilenä
