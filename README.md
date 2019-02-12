@@ -28,7 +28,7 @@ ruutu_join %>%
   geom_sf(data = paareitit %>% st_simplify)
 ```
 
-![](00-kuva_files/figure-gfm/koodi-1.png)<!-- -->
+![](https://github.com/pasipasi123/kunnossapitosuunta/blob/master/fig/reitit_ruudut.png)<!-- -->
 
 ``` r
 # lasketaan ruuduista etäisyys rotuaarille
@@ -69,7 +69,7 @@ cum_dist %>%
   theme(legend.position = "top")
 ```
 
-![](00-kuva_files/figure-gfm/koodi-2.png)<!-- -->
+![](https://github.com/pasipasi123/kunnossapitosuunta/blob/master/fig/kuva.png)<!-- -->
 
 ``` r
 ggsave(here("fig", "kuva.png"))
