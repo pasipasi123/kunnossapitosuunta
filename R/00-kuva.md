@@ -1,49 +1,17 @@
 Kunnossapidon optimisuunta
 ================
 Pasi Haapakorva
-Tue Feb 12 20:37:49 2019
+Tue Feb 12 21:02:19 2019
 
 ``` r
 library(tidyverse)
 library(sf)
 library(here)
 
-rotuaari <- st_read(here("shp", "rotuaarin_pallo.shp")) %>% st_set_crs(3067)
-```
+rotuaari <- st_read(here("shp", "rotuaarin_pallo.shp"), quiet = TRUE) %>% st_set_crs(3067)
+paareitit <- st_read(here("shp", "paareitit_fixed.shp"), quiet = TRUE) %>% st_set_crs(3067)
+ruudut <- st_read(here("shp", "ruudut.shp"), quiet = TRUE) %>% st_set_crs(3067)
 
-    ## Reading layer `rotuaarin_pallo' from data source `C:\Users\pasih\Documents\analyysit\kunnossapitosuunta\shp\rotuaarin_pallo.shp' using driver `ESRI Shapefile'
-    ## Simple feature collection with 1 feature and 1 field
-    ## geometry type:  POINT
-    ## dimension:      XY
-    ## bbox:           xmin: 427943 ymin: 7210686 xmax: 427943 ymax: 7210686
-    ## epsg (SRID):    NA
-    ## proj4string:    +proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs
-
-``` r
-paareitit <- st_read(here("shp", "paareitit_fixed.shp")) %>% st_set_crs(3067)
-```
-
-    ## Reading layer `paareitit_fixed' from data source `C:\Users\pasih\Documents\analyysit\kunnossapitosuunta\shp\paareitit_fixed.shp' using driver `ESRI Shapefile'
-    ## Simple feature collection with 3880 features and 3 fields
-    ## geometry type:  LINESTRING
-    ## dimension:      XY
-    ## bbox:           xmin: 422311.8 ymin: 7201543 xmax: 442384.9 ymax: 7229018
-    ## epsg (SRID):    NA
-    ## proj4string:    +proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs
-
-``` r
-ruudut <- st_read(here("shp", "ruudut.shp")) %>% st_set_crs(3067)
-```
-
-    ## Reading layer `ruudut' from data source `C:\Users\pasih\Documents\analyysit\kunnossapitosuunta\shp\ruudut.shp' using driver `ESRI Shapefile'
-    ## Simple feature collection with 99528 features and 13 fields
-    ## geometry type:  POLYGON
-    ## dimension:      XY
-    ## bbox:           xmin: 85000 ymin: 6629000 xmax: 725000 ymax: 7777000
-    ## epsg (SRID):    NA
-    ## proj4string:    +proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs
-
-``` r
 # liitetään ruudut pääreitteihin
 ruutu_join <- paareitit %>%
   st_buffer(1500) %>%

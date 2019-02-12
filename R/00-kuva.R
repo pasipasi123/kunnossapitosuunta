@@ -10,9 +10,9 @@ library(tidyverse)
 library(sf)
 library(here)
 
-rotuaari <- st_read(here("shp", "rotuaarin_pallo.shp")) %>% st_set_crs(3067)
-paareitit <- st_read(here("shp", "paareitit_fixed.shp")) %>% st_set_crs(3067)
-ruudut <- st_read(here("shp", "ruudut.shp")) %>% st_set_crs(3067)
+rotuaari <- st_read(here("shp", "rotuaarin_pallo.shp"), quiet = TRUE) %>% st_set_crs(3067)
+paareitit <- st_read(here("shp", "paareitit_fixed.shp"), quiet = TRUE) %>% st_set_crs(3067)
+ruudut <- st_read(here("shp", "ruudut.shp"), quiet = TRUE) %>% st_set_crs(3067)
 
 # liitetään ruudut pääreitteihin
 ruutu_join <- paareitit %>%
@@ -20,7 +20,7 @@ ruutu_join <- paareitit %>%
   st_join(ruudut)
 
 # piirretään simppeli kuva
-ruutu_join %>%
+kuva1 <- ruutu_join %>%
   st_set_geometry(NULL) %>%
   distinct(id_nro, .keep_all = TRUE) %>%
   st_as_sf(coords = c("xkoord", "ykoord")) %>%
@@ -28,6 +28,9 @@ ruutu_join %>%
   ggplot() +
   geom_sf() +
   geom_sf(data = paareitit %>% st_simplify)
+
+ggsave(here("fig", "reitit_ruudut.png"))
+
 
 # lasketaan ruuduista etäisyys rotuaarille
 rotuaari_dist <- ruutu_join %>%
@@ -67,3 +70,6 @@ cum_dist %>%
   theme(legend.position = "top")
 
 ggsave(here("fig", "kuva.png"))
+
+
+
