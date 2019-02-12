@@ -1,10 +1,18 @@
+#' ---
+#' title: Kunnossapidon optimisuunta
+#' author: Pasi Haapakorva
+#' output: github_document
+#' ---
+
+#+ koodi, message=FALSE, warning=FALSE
+
 library(tidyverse)
 library(sf)
+library(here)
 
-rotuaari <- st_read("shp/rotuaarin_pallo.shp") %>% st_set_crs(3067)
-paareitit <- st_read("shp/paareitit_fixed.shp") %>% st_set_crs(3067)
-ruudut <- st_read("shp/ruudut.shp") %>% st_set_crs(3067)
-
+rotuaari <- st_read(here("shp", "rotuaarin_pallo.shp")) %>% st_set_crs(3067)
+paareitit <- st_read(here("shp", "paareitit_fixed.shp")) %>% st_set_crs(3067)
+ruudut <- st_read(here("shp", "ruudut.shp")) %>% st_set_crs(3067)
 
 # liitetään ruudut pääreitteihin
 ruutu_join <- paareitit %>%
@@ -47,14 +55,15 @@ cum_dist <- ruutu_dist %>%
 cum_dist %>%
   select(contains("dist"), contains("_vaesto")) %>%
   ggplot(aes(distance, kesk_vaesto)) +
-  geom_line(aes(color = "Keskustasta ulos")) +
-  geom_line(aes(peri_dist, peri_vaesto, color = "Ulkoa keskustaan")) +
+  geom_step(aes(color = "Keskustasta ulos")) +
+  geom_step(aes(peri_dist, peri_vaesto, color = "Ulkoa keskustaan")) +
   scale_color_brewer(palette = "Set1", name = "Kunnossapidon suunta") +
   scale_x_continuous(labels = function(x) paste(x / 1000, "km")) +
   scale_y_continuous(labels = function(x) format(x, big.mark = " ")) +
   labs(x = "Etäisyys", y = "Tavoitettu väestö",
-       caption = "Etäisyys laskettu Rotuaarin pallolta, kun lähdetään keskustasta,\ntai uloimmaksi yltävän pääreitin kohdasta alkaen, kun lähdetään ulkoa") +
+       caption = "Etäisyys laskettu Rotuaarin pallolta, kun lähdetään keskustasta,
+       tai uloimmaksi yltävän pääreitin kohdasta alkaen, kun lähdetään ulkoa.") +
   theme_bw() +
   theme(legend.position = "top")
 
-ggsave("fig/kuva.png")
+ggsave(here("fig", "kuva.png"))
